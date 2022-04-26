@@ -1,6 +1,14 @@
 // Select color input
 const colorInput = document.querySelector('#colorPicker')
 
+//Accessing the color input value
+let colorValue = colorInput.value
+
+//Get the color input value on change
+colorInput.addEventListener('change', function() {
+    colorValue = colorInput.value
+})
+
 // Select size input - height, width
 const heightInput = document.querySelector('#inputHeight')
 const widthInput = document.querySelector('#inputWidth')
@@ -23,6 +31,7 @@ function makeGrid(e) {
     let heightValue = Number(heightInput.value)
     let widthValue = Number(widthInput.value)
 
+
 // for creating the number of rows
     if (tableBody.childElementCount === 0) {
         for(var i = 0; i < heightValue; i++){
@@ -36,6 +45,12 @@ function makeGrid(e) {
                 tableRow.appendChild(tableColumn)
             }
         }
+        
+        table.addEventListener('click', e => {
+            if(e.target.nodeName === 'TD') {
+                e.target.style.backgroundColor = colorValue;
+            }
+        })
     } else {
         tableBody.textContent = '';
         for(var i = 0; i < heightValue; i++){
