@@ -1,69 +1,72 @@
 // Select color input
-const colorInput = document.querySelector('#colorPicker')
+const colorInput = document.querySelector('#colorPicker');
 
 //Accessing the color input value
-let colorValue = colorInput.value
+let colorInputValue = colorInput.value;
 
-//Get the color input value on change
+//Get the color input value when changed
 colorInput.addEventListener('change', function() {
-    colorValue = colorInput.value
+    colorInputValue = colorInput.value;
 })
 
 // Select size input - height, width
-const heightInput = document.querySelector('#inputHeight')
-const widthInput = document.querySelector('#inputWidth')
+const heightInput = document.querySelector('#inputHeight');
+const widthInput = document.querySelector('#inputWidth');
 
-//Getting the table and table body
-const table = document.querySelector('#pixelCanvas')
-const tableBody = document.createElement('tbody')
+//Getting the table and creating the table body
+const table = document.querySelector('#pixelCanvas');
+const tableBody = document.createElement('tbody');
 table.appendChild(tableBody);
 
-// Getting the form
-const form = document.querySelector('#sizePicker')
-form.addEventListener('submit', makeGrid)
+//function for making the rows and columns
+function rowsAndColumns(height, width) {
+    //loop for creating the number of rows
+    for(let i = 0; i < height; i++){
 
-// When size is submitted by the user, call makeGrid()
-function makeGrid(e) {
-// Prevent reloading
-    e.preventDefault()
+        //Creating Rows
+        const tableRow = document.createElement('tr');
+        tableBody.appendChild(tableRow);
 
-//Changing gridweight and gridheight values to number
-    let heightValue = Number(heightInput.value)
-    let widthValue = Number(widthInput.value)
-
-
-// for creating the number of rows
-    if (tableBody.childElementCount === 0) {
-        for(var i = 0; i < heightValue; i++){
-            //Creating Rows
-            const tableRow = document.createElement('tr')
-            tableBody.appendChild(tableRow)
-
-            for(var j = 0; j < widthValue; j++){
-                //Creating Columns
-                const tableColumn = document.createElement('td')
-                tableRow.appendChild(tableColumn)
-            }
-        }
-        
-        table.addEventListener('click', e => {
-            if(e.target.nodeName === 'TD') {
-                e.target.style.backgroundColor = colorValue;
-            }
-        })
-    } else {
-        tableBody.textContent = '';
-        for(var i = 0; i < heightValue; i++){
-            //Creating Rows
-            const tableRow = document.createElement('tr')
-            tableBody.appendChild(tableRow)
-
-            for(var j = 0; j < widthValue; j++){
-                //Creating Columns
-                const tableColumn = document.createElement('td')
-                tableRow.appendChild(tableColumn)
-            }
+        //loop for creating the number of rows
+        for(let j = 0; j < width; j++){
+            //Creating Columns
+            const tableColumn = document.createElement('td');
+            tableRow.appendChild(tableColumn);
         }
     }
-}
+};
 
+
+// Getting the form
+const form = document.querySelector('#sizePicker');
+
+// When size is submitted by the user, call makeGrid()
+form.addEventListener('submit', makeGrid);
+
+// function for making the grid
+function makeGrid(e) {
+    // Prevent reloading of the page
+    e.preventDefault();
+
+    //Changing gridWeight and gridHeight values to number
+    let heightValue = Number(heightInput.value);
+    let widthValue = Number(widthInput.value);
+
+    //if statement to erase old grids and insert new grids
+    if (tableBody.childElementCount === 0) {
+        //calling rowsAndColumns function
+        rowsAndColumns(heightValue, widthValue);
+
+        //changes background color of grid when clicked
+        table.addEventListener('click', e => {
+            if(e.target.nodeName === 'TD') {
+                e.target.style.backgroundColor = colorInputValue;
+            }
+        });
+    } else {
+        //erases previous grid content of the table body
+        tableBody.textContent = '';
+        //calling rowsAndColumns function
+        rowsAndColumns(heightValue, widthValue);
+    }
+};
