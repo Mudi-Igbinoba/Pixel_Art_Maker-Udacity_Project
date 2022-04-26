@@ -1,28 +1,18 @@
 // Select color input
 const colorInput = document.querySelector('#colorPicker')
 
-// To get the color value of colorInput
-colorInput.value
-
 // Select size input - height, width
 const heightInput = document.querySelector('#inputHeight')
 const widthInput = document.querySelector('#inputWidth')
 
-// Getting the form
-const form = document.querySelector('#sizePicker')
-form.addEventListener('submit', makeGrid)
-
-//Getting the table
+//Getting the table and table body
 const table = document.querySelector('#pixelCanvas')
-console.log(table)
-
-//Creating thead, tbody and tr
 const tableBody = document.createElement('tbody')
 table.appendChild(tableBody);
 
-
-
-
+// Getting the form
+const form = document.querySelector('#sizePicker')
+form.addEventListener('submit', makeGrid)
 
 // When size is submitted by the user, call makeGrid()
 function makeGrid(e) {
@@ -34,13 +24,31 @@ function makeGrid(e) {
     let widthValue = Number(widthInput.value)
 
 // for creating the number of rows
-    for(var i = 0; i < heightValue; i++){
-        const tableRow = document.createElement('tr')
-        tableBody.appendChild(tableRow)
+    if (tableBody.childElementCount === 0) {
+        for(var i = 0; i < heightValue; i++){
+            //Creating Rows
+            const tableRow = document.createElement('tr')
+            tableBody.appendChild(tableRow)
 
-        for(var j = 0; j < widthValue; j++){
-            const tableColumn = document.createElement('td')
-            tableRow.appendChild(tableColumn)
+            for(var j = 0; j < widthValue; j++){
+                //Creating Columns
+                const tableColumn = document.createElement('td')
+                tableRow.appendChild(tableColumn)
+            }
+        }
+    } else {
+        tableBody.textContent = '';
+        for(var i = 0; i < heightValue; i++){
+            //Creating Rows
+            const tableRow = document.createElement('tr')
+            tableBody.appendChild(tableRow)
+
+            for(var j = 0; j < widthValue; j++){
+                //Creating Columns
+                const tableColumn = document.createElement('td')
+                tableRow.appendChild(tableColumn)
+            }
         }
     }
 }
+
